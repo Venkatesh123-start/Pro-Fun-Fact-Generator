@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Programming Fun Facts Generator</title>
+  <link href="https://fonts.googleapis.com/css?family=Inter:400,600&display=swap" rel="stylesheet">
+  <style>
+    /* --- Animated Gradient Background --- */
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(-45deg, #e0c3fc, #8ec5fc, #f093fb, #f5576c, #43e97b, #38f9d7);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      transition: background 0.5s;
+    }
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    /* --- Card Structure (Glassmorphism) --- */
+    .container {
+      background: rgba(255,255,255,0.85);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px 0 rgba(31,38,135,0.18);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1.5px solid rgba(255,255,255,0.25);
+      max-width: 480px;
+      width: 100%;
+      padding: 2.5rem 2rem 2rem 2rem;
+      text-align: center;
+      position: relative;
+      transition: background 0.6s, box-shadow 0.6s;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+      color: #222;
+      letter-spacing: 0.01em;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    #fact-display {
+      font-size: 1.18rem;
+      font-weight: 500;
+      margin-bottom: 2rem;
+      min-height: 80px;
+      opacity: 1;
+      transition: color 0.5s, opacity 0.4s;
+      line-height: 1.5;
+      letter-spacing: 0.01em;
+      word-break: break-word;
+    }
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      align-items: center;
+    }
+    button, .share-btn {
+      font-family: inherit;
+      font-size: 1rem;
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      background: #2563eb;
+      color: #fff;
+      box-shadow: 0 2px 12px rgba(37,99,235,0.10);
+      transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+      outline: none;
+    }
+    button:hover, .share-btn:hover {
+      background: #1d4ed8;
+      box-shadow: 0 4px 18px rgba(37,99,235,0.18);
+      transform: translateY(-2px) scale(1.04);
+    }
+    .share-btn {
+      background: #e5e7eb;
+      color: #222;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5em;
+      padding: 0.6rem 1.2rem;
+      border: 1px solid #d1d5db;
+      margin-right: 0.5rem;
+    }
+    .share-btn:last-child { margin-right: 0; }
+    .share-btn:hover {
+      background: #dbeafe;
+      color: #1d4ed8;
+      border-color: #93c5fd;
+    }
+    /* --- Responsive --- */
+    @media (max-width: 600px) {
+      .container {
+        padding: 1.2rem 0.5rem 1.5rem 0.5rem;
+      }
+      h1 {
+        font-size: 1.25rem;
+      }
+      #fact-display {
+        font-size: 1rem;
+      }
+    }
+    /* --- Animated Card Border --- */
+    .container::before {
+      content: "";
+      position: absolute;
+      inset: -3px;
+      border-radius: 22px;
+      z-index: -1;
+      background: linear-gradient(120deg, #a18cd1, #fbc2eb, #f5576c, #43e97b, #38f9d7, #a18cd1);
+      background-size: 300% 300%;
+      animation: borderAnim 8s linear infinite;
+      opacity: 0.7;
+    }
+    @keyframes borderAnim {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="fact-container">
+    <h1>Programming Fun Facts</h1>
+    <div id="fact-display">Click the button to see a fun fact!</div>
+    <div class="actions">
+      <button id="generate-btn" type="button">Generate Another Fun Fact</button>
+      <div style="display: flex; gap: 0.5rem;">
+        <button class="share-btn" id="twitter-share" title="Share on Twitter" aria-label="Share on Twitter">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.46 5.924c-.793.352-1.646.59-2.542.698a4.48 4.48 0 0 0 1.963-2.475 8.93 8.93 0 0 1-2.828 1.082 4.48 4.48 0 0 0-7.635 4.086A12.72 12.72 0 0 1 3.11 4.86a4.48 4.48 0 0 0 1.388 5.976 4.47 4.47 0 0 1-2.03-.561v.057a4.48 4.48 0 0 0 3.594 4.393 4.5 4.5 0 0 1-2.025.077 4.48 4.48 0 0 0 4.184 3.112A8.98 8.98 0 0 1 2 19.54a12.7 12.7 0 0 0 6.88 2.017c8.26 0 12.78-6.84 12.78-12.77 0-.195-.004-.39-.013-.583a9.1 9.1 0 0 0 2.23-2.317z"/></svg>
+          Twitter
+        </button>
+        <button class="share-btn" id="linkedin-share" title="Share on LinkedIn" aria-label="Share on LinkedIn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.27c-.97 0-1.75-.79-1.75-1.76s.78-1.76 1.75-1.76 1.75.79 1.75 1.76-.78 1.76-1.75 1.76zm13.5 11.27h-3v-5.6c0-1.34-.03-3.07-1.87-3.07-1.87 0-2.16 1.46-2.16 2.97v5.7h-3v-10h2.88v1.36h.04c.4-.75 1.38-1.54 2.85-1.54 3.05 0 3.61 2.01 3.61 4.62v5.56z"/></svg>
+          LinkedIn
+        </button>
+      </div>
+    </div>
+  </div>
+  <script>
+    // --- Fun Facts Array ---
+    const facts = [
+      "The first computer programmer was Ada Lovelace, who wrote an algorithm for Charles Babbage’s Analytical Engine in the 1840s.",
+      "The first bug in a computer was an actual moth found in a Harvard Mark II computer in 1947.",
+      "Python is named after the British comedy group Monty Python, not the snake.",
+      "The first video game, 'Spacewar!', was created in 1962 by MIT students on a PDP-1 computer.",
+      "The 'Hello, World!' program is a tradition that dates back to the 1970s and was popularized by the book 'The C Programming Language.'",
+      "There are over 700 programming languages in existence today.",
+      "The first high-level programming language was Fortran, developed in the 1950s for scientific and engineering calculations.",
+      "The original name for Java was 'Oak,' inspired by an oak tree outside the developer’s window.",
+      "Whitespace is a programming language that only uses spaces, tabs, and line breaks as syntax.",
+      "The Apollo 11 moon landing was powered by code written by Margaret Hamilton and her team, which had to fit in just 64KB of memory."
+    ];
+
+    // --- Unique Color Schemes for Each Fact (by index) ---
+    const colorSchemes = [
+      // Ada Lovelace
+      { background: "linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%)", text: "#3730a3" },
+      // Bug/Moth
+      { background: "linear-gradient(135deg, #fffbe6 0%, #fde68a 100%)", text: "#b45309" },
+      // Python
+      { background: "linear-gradient(135deg, #d1fae5 0%, #6ee7b7 100%)", text: "#065f46" },
+      // Spacewar!
+      { background: "linear-gradient(135deg, #ede9fe 0%, #a5b4fc 100%)", text: "#6d28d9" },
+      // Hello World
+      { background: "linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)", text: "#111827" },
+      // 700 languages
+      { background: "linear-gradient(135deg, #f0fdf4 0%, #bbf7d0 100%)", text: "#166534" },
+      // Fortran
+      { background: "linear-gradient(135deg, #dbeafe 0%, #60a5fa 100%)", text: "#1e40af" },
+      // Java/Oak
+      { background: "linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)", text: "#92400e" },
+      // Whitespace
+      { background: "linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%)", text: "#334155" },
+      // Apollo
+      { background: "linear-gradient(135deg, #e0e7ff 0%, #a5b4fc 100%)", text: "#3730a3" }
+    ];
+
+    // --- Fact Display Logic ---
+    let lastIndex = -1;
+    function generateFact() {
+      let idx;
+      do {
+        idx = Math.floor(Math.random() * facts.length);
+      } while (idx === lastIndex && facts.length > 1);
+      lastIndex = idx;
+      const fact = facts[idx];
+      const scheme = colorSchemes[idx] || { background: "#fff", text: "#222" };
+
+      // Animate fade-out, then update, then fade-in
+      const display = document.getElementById('fact-display');
+      const container = document.getElementById('fact-container');
+      display.style.opacity = 0;
+      setTimeout(() => {
+        display.textContent = fact;
+        display.style.color = scheme.text;
+        container.style.background = scheme.background;
+        container.style.color = scheme.text;
+        display.style.opacity = 1;
+      }, 250);
+    }
+
+    // --- Social Sharing ---
+    function getShareUrl(platform, fact) {
+      const appUrl = window.location.href.split('#')[0];
+      const text = encodeURIComponent(fact + " #FunFact");
+      if (platform === "twitter") {
+        return `https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(appUrl)}`;
+      } else if (platform === "linkedin") {
+        return `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(appUrl)}&summary=${text}`;
+      }
+      return "#";
+    }
+    function share(platform) {
+      const fact = document.getElementById('fact-display').textContent;
+      if (!fact || fact === "Click the button to see a fun fact!") return;
+      const url = getShareUrl(platform, fact);
+      window.open(url, '_blank', 'noopener');
+    }
+
+    // --- Event Listeners ---
+    document.getElementById('generate-btn').addEventListener('click', generateFact);
+    document.getElementById('twitter-share').addEventListener('click', () => share('twitter'));
+    document.getElementById('linkedin-share').addEventListener('click', () => share('linkedin'));
+
+    // --- Optional: Generate a fact on load ---
+    // generateFact();
+  </script>
+</body>
+</html>
